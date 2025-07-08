@@ -1,0 +1,30 @@
+{
+  "name": "todoapp2",
+  "version": "1.0.0",
+  "main": "index.ejs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node app.ts",
+    "dev": "nodemon app.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "concurrently": "^9.2.0",
+    "lite": "^4.0.5",
+    "nodemon": "^3.1.10",
+    "server": "^1.0.41",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.0.10",
+    "bootstrap": "^5.3.7",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "lite-server": "^2.6.1",
+    "mysql2": "^3.14.1"
+  }
+}
