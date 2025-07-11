@@ -3,4 +3,5 @@ export type Todo = {
   todo: string;
   completed: boolean;
   deleted: boolean;
+  deadline: string;
 };

@@ -2,18 +2,26 @@ import { Request, Response } from "express";
 import { pool } from "../db";
 
 export const getTodos = async (_: Request, res: Response) => {
-  //ここなに？
-  const [rows] = await pool.execute("SELECT * FROM todo WHERE deleted = false");
-  res.status(200).json({ todos: rows });
+  try {
+    const [rows] = await pool.execute("SELECT * FROM todo");
+    res.status(200).json({ todos: rows });
+  } catch (err) {
+    console.error("データベースエラー:", err);
+    res.status(500).json({ message: "データベースエラーが発生しました" });
+  }
 };
 
 export const addTodo = async (req: Request, res: Response) => {
-  const { todo } = req.body;
+  const { todo, deadline } = req.body;
   if (!todo) {
     res.status(400).send("Todoが空です");
     return;
   }
-  await pool.execute("INSERT INTO todo (todo) VALUES (?)", [todo]);
+  console.log(deadline);
+  await pool.execute("INSERT INTO todo (todo,deadline) VALUES (?,?)", [
+    todo,
+    deadline || null,
+  ]);
   res.status(201).send("追加成功");
 };
 
