@@ -8,7 +8,7 @@ app.use(cors()); //このミドルウェア必須
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/", todoRoutes);
+app.use("/todo", todoRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

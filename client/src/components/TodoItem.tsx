@@ -3,15 +3,18 @@ import { Todo } from "../types/Todo";
 type Props = {
   todo: Todo;
   onDelete: (id: number) => void;
+  onEdit: () => void;
 };
 
-export const TodoItem = ({ todo, onDelete }: Props) => (
+export const TodoItem = ({ todo, onDelete, onEdit }: Props) => (
   <li className="d-flex align-items-center justify-content-between border-bottom py-2">
     <div>
       <span>{todo.todo}</span>
       {todo.deadline && (
         <span className="text-muted ms-2">
-          {todo.deadline ? `期限: ${todo.deadline}` : "期限なし"}
+          {todo.deadline.slice(0, 10)
+            ? `期限: ${todo.deadline.slice(0, 10)}`
+            : "期限なし"}
         </span>
       )}
     </div>
@@ -20,6 +23,7 @@ export const TodoItem = ({ todo, onDelete }: Props) => (
         className="btn btn-success btn-sm"
         onClick={() => {
           console.log("編集クリック：", todo.id);
+          onEdit();
         }}
       >
         編集
@@ -31,7 +35,7 @@ export const TodoItem = ({ todo, onDelete }: Props) => (
           onDelete(todo.id);
         }}
       >
-        削除
+        完了
       </button>
     </div>
   </li>

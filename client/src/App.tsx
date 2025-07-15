@@ -7,15 +7,18 @@ import {
   createTodo,
   softDeleteTodo,
   restoreTodo,
+  updateTodoAPI,
 } from "./services/api";
 import { TodoItem } from "./components/TodoItem";
 import { DeleteTodoItem } from "./components/DeleteTodoItem";
+import { EditTodoItem } from "./components/EditTodoItem";
 
 function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [newTask, setNewTask] = useState("");
   const [deleteTodos, setDeleteTodos] = useState<Todo[]>([]);
   const [dueDate, setDueDate] = useState("");
+  const [editTodoId, setEditTodoId] = useState<number | null>(null);
 
   const loadTodos = async () => {
     // const data = await fetchTodos();
@@ -85,13 +88,36 @@ function App() {
       </form>
 
       <h2>Todo一覧</h2>
-      <ul className="list-group mb-4">
+      {/* <ul className="list-group mb-4">
         {todos.map((todo) => (
           <TodoItem key={todo.id} todo={todo} onDelete={handleDelete} />
         ))}
+      </ul> */}
+      <ul className="list-group mb-4">
+        {todos.map((todo) =>
+          editTodoId === todo.id ? (
+            <EditTodoItem
+              key={todo.id}
+              todo={todo}
+              onUpdate={async (updated: any) => {
+                await updateTodoAPI(updated.id, updated.todo, updated.deadline);
+                setEditTodoId(null);
+                loadTodos();
+              }}
+              onCancel={() => setEditTodoId(null)}
+            />
+          ) : (
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              onDelete={handleDelete}
+              onEdit={() => setEditTodoId(todo.id)}
+            />
+          )
+        )}
       </ul>
 
-      <h2>削除済みのTodo</h2>
+      <h2>完了済みのTodo</h2>
       <ul className="list-group">
         {deleteTodos.map((todo) => (
           <DeleteTodoItem key={todo.id} todo={todo} onRestore={handleRestore} />
