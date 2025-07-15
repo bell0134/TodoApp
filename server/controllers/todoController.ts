@@ -59,3 +59,19 @@ export const getDeleteTodos = async (_: Request, res: Response) => {
   const [rows] = await pool.execute("SELECT * FROM todo WHERE deleted = true");
   res.status(200).json({ deletedTodos: rows });
 };
+
+export const updateTodo = async (req: Request, res: Response) => {
+  const id = Number(req.params.id);
+  const { todo, deadline } = req.body;
+  try {
+    await pool.execute("UPDATE todo SET todo = ?, deadline = ? WHERE id = ?", [
+      todo,
+      deadline || null,
+      id,
+    ]);
+    res.status(200).send("更新成功");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("更新失敗");
+  }
+};

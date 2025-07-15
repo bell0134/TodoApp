@@ -1,6 +1,6 @@
 import { Todo } from "../types/Todo";
 
-const API_URL = "http://localhost:3000";
+const API_URL = "http://localhost:3000/todo";
 
 export const fetchTodos = async (): Promise<Todo[]> => {
   try {
@@ -27,13 +27,25 @@ export const createTodo = async (todo: string, deadline: string) => {
 };
 
 export const softDeleteTodo = async (id: number) => {
-  await fetch(`${API_URL}/todo/${id}/delete`, {
+  await fetch(`${API_URL}/${id}/delete`, {
     method: "PATCH",
   });
 };
 
 export const restoreTodo = async (id: number) => {
-  await fetch(`${API_URL}/todo/${id}/restore`, {
+  await fetch(`${API_URL}/${id}/restore`, {
     method: "PATCH",
+  });
+};
+
+export const updateTodoAPI = async (
+  id: number,
+  todo: string,
+  deadline: string
+) => {
+  await fetch(`${API_URL}/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ todo, deadline }),
   });
 };
